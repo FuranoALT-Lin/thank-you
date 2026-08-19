@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>A Big Thank You — for Kanda Sensei</title>
+
+<!--
+  ================================================================
+  HOW TO EDIT THIS CARD
+  ================================================================
+  - The cover text is marked with <!-- EDIT: Cover title/subtitle --> below.
+  - Each message page (1-21) contains your English line (class="msg-en")
+    and, where provided, the Japanese line (class="msg-jp"). Just edit
+    the text between the <p> tags directly.
+  - The very last page has the closing line + signature, marked with
+    <!-- EDIT: Final closing message --> and <!-- EDIT: Your signature -->.
+  - Nothing else needs to change. Save the file and reopen it in a
+    browser (or just refresh GitHub Pages) to preview.
+  ================================================================
+-->
+
+<style>
+  /* ============================================================
+     DESIGN TOKENS
+     ============================================================ */
+  :root{
+    --cream:        #FBF5EC;
+    --cream-deep:   #F3E7D6;
+    --blush:        #F5DEE3;
+    --blush-deep:   #EFC9D2;
+    --dusty-pink:   #D9A3AC;
+    --rose-deep:    #B6717F;
+    --burgundy:     #5C2A3A;
+    --ink:          #4A3336;
+    --gold:         #C7A15C;
+    --gold-light:   #E7D2A0;
+
+    --font-display: "Playfair Display", Palatino, "Palatino Linotype", Georgia, "Times New Roman", serif;
+    --font-body:    "Cormorant Garamond", "EB Garamond", Georgia, "Times New Roman", serif;
+
+    --flip-duration: 1000ms;
+  }
+
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Noto+Serif+JP:wght@400;500&display=swap');
+
+  *{ box-sizing:border-box; }
+  html,body{ height:100%; }
+  body{
+    margin:0;
+    min-height:100vh;
+    min-height:100dvh;
+    background:
+      radial-gradient(ellipse at 15% 10%, var(--blush) 0%, transparent 55%),
+      radial-gradient(ellipse at 85% 90%, var(--blush-deep) 0%, transparent 55%),
+      linear-gradient(160deg, var(--cream) 0%, var(--cream-deep) 55%, var(--blush) 100%);
+    font-family: var(--font-body);
+    color: var(--ink);
+    overflow:hidden;
+    -webkit-tap-highlight-color: transparent;
+    user-select:none;
+  }
+
+  /* ============================================================
+     AMBIENT BACKGROUND (soft drifting music notes)
+     ============================================================ */
+  .ambient{
+    position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:0;
+  }
+  .ambient span{
+    position:absolute;
+    bottom:-10%;
+    color: var(--dusty-pink);
+    opacity:.28;
+    font-family: var(--font-display);
+    animation: drift-up linear infinite;
+  }
+  .ambient span:nth-child(1){ left:6%;  font-size:26px; animation-duration:22s; animation-delay:0s; }
+  .ambient span:nth-child(2){ left:22%; font-size:16px; animation-duration:17s; animation-delay:3s; }
+  .ambient span:nth-child(3){ left:48%; font-size:20px; animation-duration:26s; animation-delay:6s; }
+  .ambient span:nth-child(4){ left:68%; font-size:14px; animation-duration:19s; animation-delay:1.5s; }
+  .ambient span:nth-child(5){ left:85%; font-size:22px; animation-duration:24s; animation-delay:9s; }
+  .ambient span:nth-child(6){ left:35%; font-size:12px; animation-duration:15s; animation-delay:11s; }
+
+  @keyframes drift-up{
+    0%   { transform: translateY(0) rotate(0deg);   opacity:0; }
+    10%  { opacity:.28; }
+    90%  { opacity:.18; }
+    100% { transform: translateY(-115vh) rotate(18deg); opacity:0; }
+  }
+
+  /* ============================================================
+     STAGE / LAYOUT
+     ============================================================ */
+  .stage{
+    position:relative;
+    z-index:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap: clamp(10px, 2vh, 22px);
+    width:100%;
+    min-height:100vh;
+    min-height:100dvh;
+    padding: clamp(12px, 3vh, 28px) 14px;
+  }
+
+  .book-wrap{
+    position:relative;
+    width:min(92vw, 480px);
+    height: min(76vh, 660px);
+    height: min(76dvh, 660px);
+    perspective: 2600px;
+  }
+
+  .book{
+    position:relative;
+    width:100%;
+    height:100%;
+  }
+
+  /* soft contact shadow beneath the card */
+  .book-shadow{
+    position:absolute;
+    left:6%; right:6%; bottom:-22px;
+    height:34px;
+    background: radial-gradient(ellipse at center, rgba(92,42,58,.28) 0%, rgba(92,42,58,0) 72%);
+    filter: blur(2px);
+    z-index:0;
+  }
+
+  /* left "spine" strip to sell the book-binding illusion */
+  .book::before{
+    content:'';
+    position:absolute;
+    left:-3px; top:2%; bottom:2%;
+    width:14px;
+    background: linear-gradient(to right, var(--gold-light), var(--gold) 40%, var(--rose-deep) 100%);
+    border-radius:6px 0 0 6px;
+    box-shadow: 0 4px 14px rgba(92,42,58,.25) inset, 0 0 8px rgba(0,0,0,.15);
+    z-index:0;
+  }
+
+  /* ============================================================
+     PAGES
+     ============================================================ */
+  .page{
+    position:absolute;
+    inset:0;
+    transform-style: preserve-3d;
+    transform-origin: 0% 50%;
+    transition: transform var(--flip-duration) cubic-bezier(.62,.04,.36,1);
+    cursor:pointer;
+  }
+  .page.flipped{ transform: rotateY(-178deg); }
+
+  .page-front, .page-back{
+    position:absolute;
+    inset:0;
+    backface-visibility:hidden;
+    -webkit-backface-visibility:hidden;
+    border-radius: 4px 14px 14px 4px;
+    overflow:hidden;
+    background: var(--cream);
+    box-shadow:
+      0 18px 45px rgba(92,42,58,.28),
+      0 2px 6px rgba(92,42,58,.15);
+  }
+
+  .page-back{
+    transform: rotateY(180deg);
+    background:
+      radial-gradient(ellipse at 30% 20%, rgba(217,163,172,.25), transparent 60%),
+      var(--cream);
+  }
+
+  /* faint paper grain */
+  .page-front::before, .page-back::before{
+    content:'';
+    position:absolute; inset:0;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/></svg>");
+    background-size:160px;
+    opacity:.05;
+    mix-blend-mode:multiply;
+    pointer-events:none;
+  }
+
+  /* thin gold inner border, like a card edge */
+  .page-front::after, .page-back::after{
+    content:'';
+    position:absolute; inset:10px;
+    border:1px solid rgba(199,161,92,.35);
+    border-radius:2px 10px 10px 2px;
+    pointer-events:none;
+  }
+
+  /* sweeping shadow while a page is actively turning */
+  .flip-shadow{
+    position:absolute; inset:0;
+    background: linear-gradient(to right, rgba(74,51,54,.38), rgba(74,51,54,0) 45%);
+    opacity:0;
+    pointer-events:none;
+    border-radius:inherit;
+    z-index:5;
+  }
+  .page.flipping .flip-shadow{ animation: shadow-sweep var(--flip-duration) ease; }
+  @keyframes shadow-sweep{
+    0%{ opacity:0; }
+    45%{ opacity:1; }
+    100%{ opacity:0; }
+  }
+
+  .page-inner{
+    position:relative;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding: clamp(24px, 7%, 46px) clamp(20px, 7%, 42px);
+    gap: clamp(8px, 1.8vh, 14px);
+    overflow-y:auto;
+    scrollbar-width:thin;
+    scrollbar-color: var(--dusty-pink) transparent;
+  }
+  .page-inner::-webkit-scrollbar{ width:5px; }
+  .page-inner::-webkit-scrollbar-thumb{ background: var(--dusty-pink); border-radius:4px; }
+
+  /* ---------- small musical corner ornaments ---------- */
+  .corner-note{
+    position:absolute;
+    font-family: var(--font-display);
+    color: var(--dusty-pink);
+    opacity:.55;
+    pointer-events:none;
+    font-size:20px;
+  }
+  .corner-note.tl{ top:16px; left:20px; }
+  .corner-note.br{ bottom:16px; right:20px; transform:rotate(180deg); }
+
+  /* ---------- typography ---------- */
+  .eyebrow{
+    font-family: var(--font-body);
+    font-style:italic;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    font-size: clamp(11px,2.4vw,13px);
+    color: var(--rose-deep);
+  }
+  h1.page-title{
+    font-family: var(--font-display);
+    font-weight:600;
+    font-style:italic;
+    color: var(--burgundy);
+    font-size: clamp(28px, 6.4vw, 44px);
+    line-height:1.15;
+    margin: 0;
+  }
+  .page-name{
+    color: var(--rose-deep);
+    font-style:normal;
+  }
+  p.msg-en{
+    font-family: var(--font-body);
+    font-style:italic;
+    font-size: clamp(15px, 3.1vw, 19px);
+    line-height:1.55;
+    color: var(--ink);
+    max-width: 38ch;
+    margin:0;
+  }
+  p.msg-jp{
+    font-family: "Noto Serif JP", var(--font-body), serif;
+    font-size: clamp(13.5px, 2.7vw, 16px);
+    line-height:1.95;
+    color: var(--rose-deep);
+    max-width: 30ch;
+    margin:0;
+    letter-spacing:.01em;
+  }
+  .mini-divider{
+    width:34px; height:1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    opacity:.7;
+    margin:2px 0;
+  }
+  .divider{
+    width:64px; height:1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    margin: 2px 0;
+  }
+  .hint{
+    font-size: clamp(12px,2.6vw,14px);
+    letter-spacing:.06em;
+    font-style:italic;
+    color: var(--rose-deep);
+    opacity:.85;
+    animation: pulse-hint 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse-hint{
+    0%,100%{ opacity:.55; }
+    50%{ opacity:1; }
+  }
+
+  /* ---------- cover page specifics ---------- */
+  .cover-title{
+    font-family: var(--font-display);
+    font-weight:600;
+    font-style:italic;
+    color: var(--burgundy);
+    font-size: clamp(32px, 8vw, 52px);
+    line-height:1.1;
+    margin:0;
+  }
+  .cover-clef{
+    font-size: clamp(38px, 9vw, 56px);
+    color: var(--gold);
+    line-height:1;
+  }
+  .cover-sub{
+    font-family: var(--font-body);
+    font-style:italic;
+    color: var(--rose-deep);
+    font-size: clamp(14px, 3.2vw, 18px);
+  }
+
+  /* fold hint on cover bottom-right corner */
+  .page-curl{
+    position:absolute;
+    right:0; bottom:0;
+    width:46px; height:46px;
+    background: linear-gradient(135deg, transparent 50%, rgba(199,161,92,.35) 50%);
+    border-radius: 0 0 4px 0;
+    pointer-events:none;
+    animation: curl-breathe 2.6s ease-in-out infinite;
+  }
+  @keyframes curl-breathe{
+    0%,100%{ opacity:.55; }
+    50%{ opacity:1; }
+  }
+
+  /* ---------- final page decoration ---------- */
+  .final-decor{
+    position:absolute; inset:0;
+    pointer-events:none;
+    overflow:hidden;
+  }
+  .final-decor span{
+    position:absolute;
+    bottom:-8%;
+    color: var(--rose-deep);
+    opacity:0;
+    font-family: var(--font-display);
+    animation: rise-fade 6s ease-in infinite;
+  }
+  .final-decor span:nth-child(1){ left:12%; font-size:18px; animation-delay:.2s; }
+  .final-decor span:nth-child(2){ left:28%; font-size:13px; animation-delay:1.6s; }
+  .final-decor span:nth-child(3){ left:50%; font-size:20px; animation-delay:.9s; }
+  .final-decor span:nth-child(4){ left:68%; font-size:14px; animation-delay:2.4s; }
+  .final-decor span:nth-child(5){ left:82%; font-size:17px; animation-delay:3.2s; }
+  @keyframes rise-fade{
+    0%{ transform:translateY(0) scale(.9); opacity:0; }
+    15%{ opacity:.6; }
+    85%{ opacity:.35; }
+    100%{ transform:translateY(-260px) scale(1.05); opacity:0; }
+  }
+
+  .signature{
+    margin-top:6px;
+    font-family: var(--font-display);
+    font-style:italic;
+    color: var(--burgundy);
+    font-size: clamp(17px, 3.6vw, 22px);
+  }
+
+  /* ============================================================
+     CONTROLS (footer bar below the book)
+     ============================================================ */
+  .controls{
+    position:relative;
+    z-index:2;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+    width:min(92vw, 480px);
+    min-height:34px;
+    opacity:0;
+    transform:translateY(6px);
+    transition: opacity .5s ease, transform .5s ease;
+    pointer-events:none;
+  }
+  .controls.visible{
+    opacity:1;
+    transform:translateY(0);
+    pointer-events:auto;
+  }
+
+  .back-btn{
+    font-family: var(--font-body);
+    font-style:italic;
+    font-size: 15px;
+    letter-spacing:.03em;
+    color: var(--rose-deep);
+    background:transparent;
+    border:1px solid var(--dusty-pink);
+    border-radius:20px;
+    padding:6px 16px;
+    cursor:pointer;
+    transition: background .25s ease, color .25s ease, opacity .25s ease;
+    opacity:1;
+    flex-shrink:0;
+  }
+  .back-btn:hover{ background: var(--blush); }
+  .back-btn:disabled{ opacity:0; pointer-events:none; }
+  .back-btn:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+
+  .progress-track{
+    flex:1;
+    max-width:200px;
+    height:4px;
+    border-radius:3px;
+    background: rgba(217,163,172,.3);
+    overflow:hidden;
+  }
+  .progress-fill{
+    height:100%;
+    width:0%;
+    background: linear-gradient(to right, var(--gold), var(--rose-deep));
+    border-radius:3px;
+    transition: width .5s ease;
+  }
+
+  .counter{
+    font-family: var(--font-body);
+    font-style:italic;
+    font-size:13px;
+    color: var(--rose-deep);
+    opacity:.8;
+    min-width:48px;
+    text-align:right;
+    flex-shrink:0;
+  }
+
+  /* ============================================================
+     RESPONSIVE TWEAKS
+     ============================================================ */
+  @media (max-width: 380px){
+    .page-inner{ padding: 20px 18px; gap:8px; }
+    .corner-note{ font-size:16px; }
+  }
+
+  @media (min-width: 900px){
+    .book-wrap{ width:min(40vw, 520px); height:min(80vh, 720px); }
+  }
+
+  /* Respect reduced motion preference */
+  @media (prefers-reduced-motion: reduce){
+    .page{ transition-duration: .35s; }
+    .ambient span, .final-decor span, .hint, .page-curl{ animation:none !important; opacity:.4; }
+  }
+
+  /* Mobile / Safari / Chrome safeguards and Japanese line wrapping */
+  html{ -webkit-text-size-adjust:100%; text-size-adjust:100%; }
+  body{ overscroll-behavior:none; }
+  .page{ -webkit-transform-style:preserve-3d; transform-style:preserve-3d; touch-action:manipulation; }
+  p.msg-jp{ word-break:normal; overflow-wrap:normal; line-break:strict; white-space:normal; font-size:clamp(14px,2.9vw,17px); line-height:1.9; max-width:32ch; }
+  .jp-unit{ display:inline-block; white-space:nowrap; }
+
+  /* Cute background illustrations */
+  .cute-bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+  .cute-bg .doodle{position:absolute;opacity:.34;filter:drop-shadow(0 2px 2px rgba(92,42,58,.05));animation:float-doodle 8s ease-in-out infinite}
+  .doodle.flower{font-size:48px}.doodle.sparkle{font-size:28px}.doodle.bow{font-size:44px}.doodle.heart{font-size:34px}.doodle.note{font-size:34px}
+  .d1{left:4%;top:12%;animation-delay:0s}.d2{right:5%;top:18%;animation-delay:1.5s}.d3{left:7%;bottom:16%;animation-delay:3s}.d4{right:7%;bottom:12%;animation-delay:4.5s}.d5{left:18%;top:5%;animation-delay:2s}.d6{right:19%;bottom:5%;animation-delay:5s}
+  @keyframes float-doodle{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-12px) rotate(3deg)}}
+  @media(max-width:600px){.cute-bg .doodle{opacity:.24}.doodle.flower{font-size:38px}.doodle.sparkle{font-size:22px}.doodle.bow{font-size:34px}.doodle.heart,.doodle.note{font-size:27px}}
+  @media(prefers-reduced-motion:reduce){.cute-bg .doodle{animation:none}}
+
+</style>
+</head>
+<body>
+  <!-- BACKGROUND MUSIC: change MUSIC_URL near the bottom of this file. -->
+  <audio id="bgMusic" loop preload="auto" playsinline></audio>
+
+  <div class="cute-bg" aria-hidden="true">
+    <span class="doodle flower d1">🌸</span>
+    <span class="doodle sparkle d2">✦</span>
+    <span class="doodle bow d3">🎀</span>
+    <span class="doodle heart d4">♡</span>
+    <span class="doodle note d5">♪</span>
+    <span class="doodle flower d6">🌷</span>
+  </div>
+
+
+  <!-- soft drifting background notes -->
+  <div class="ambient" aria-hidden="true">
+    <span>&#9835;</span>
+    <span>&#9834;</span>
+    <span>&#9825;</span>
+    <span>&#9835;</span>
+    <span>&#9834;</span>
+    <span>&#9825;</span>
+  </div>
+
+  <div class="stage">
+    <div class="book-wrap">
+      <div class="book-shadow" aria-hidden="true"></div>
+
+      <div class="book" id="book" role="group" aria-label="Interactive thank-you card" tabindex="0">
+
+        <!-- =========================================================
+             PAGE 0 — COVER
+             ========================================================= -->
+        <div class="page" data-index="0">
+          <div class="flip-shadow" aria-hidden="true"></div>
+          <div class="page-front">
+            <div class="page-inner">
+              <div class="cover-clef" aria-hidden="true">&#119070;</div>
+
+              <!-- EDIT: Cover title -->
+              <h1 class="cover-title">A Big<br>Thank You!</h1>
+              <!-- /EDIT -->
+
+              <div class="divider" aria-hidden="true"></div>
+
+              <!-- EDIT: Optional line under the title on the cover -->
+              <p class="cover-sub">for Kanda Sensei &middot; 神田先生へ</p>
+              <!-- /EDIT -->
+
+              <p class="hint">click to open &#9825;</p>
+            </div>
+            <div class="page-curl" aria-hidden="true"></div>
+          </div>
+          <div class="page-back"></div>
+        </div>
+
+        <!-- =========================================================
+             PAGE 1 of 21
+             ========================================================= -->
+        <div class="page" data-index="1">
+          <div class="flip-shadow" aria-hidden="true"></div>
+          <div class="page-front">
+            <div class="corner-note tl" aria-hidden="true">&#9834;</div>
+<div class="page-inner">
+              <p class="msg-en" lang="en">I've wanted to write you a message since the start of summer vacation, but it took me some time because I've been trying to learn how to make a website. It was quite difficult for me because I've never learned coding before!</p>
+              <div class="mini-divider" aria-hidden="true"></div>
+              <p class="msg-jp" lang="ja"><span class="jp-unit">夏休み</span>に入った頃から<span class="jp-unit">神田先生</span>にメッセージを書きたいと思っていたんですが、<span class="jp-unit">ウェブサイト</span>を作る方法を勉強していたので、少し時間がかかってしまいました。今まで<span class="jp-unit">コーディング</span>なんて勉強したことがなかったので、私にはけっこう難しかったです！</p>
+            </div>
+          </div>
+          <div class="page-back"></div>
+        </div>
+
+        <!-- =========================================================
+             PAGE 2 of 21
+             ========================================================= -->
+        <div class="page" data-index="2">
+          <div class="flip-shadow" aria-hidden="true"></div>
+          <div class="page-front">
+            <div class="page-inner">
+              <p class="msg-en" lang="en">Thanks to AI (Claude.ai), I was able to get some advice and simplified instructions on how to make one.</p>
+              <div class="mini-divider" aria-hidden="true"></div>
+              <p class="msg-jp" lang="ja">AI（Claude.ai）のおかげで、作り方についていろいろアドバイスをもらったり、分かりやすく簡単に説明してもらったりして、なんとか作ることができました。</p>
+            </div>
+          </div>
+          <div class="page-back"></div>
+        </div>
+
+        <!-- =========================================================
+             PAGE 3 of 21
+             ========================================================= -->
+        <div class="page" data-index="3">
+          <div class="flip-shadow" aria-hidden="true"></div>
+          <div class="page-front">
+            <div class="page-inner">
+              <p class="msg-en" lang="en">And this, my very first website, was made especially for you! 💌</p>
+              <div class="mini-divider" aria-hidden="true"></div>
+              <p class="msg-jp" lang="ja">そして、これが<span class="jp-unit">神田先生</span>のために特別に作った、私にとって初めての<span class="jp-unit">ウェブサイト</span>です！</p>
+            </div>
+          </div>
+          <div class="page-back"></div>
+        </div>
+
+        <!-- =========================================================
+             PAGE 4 of 21
+             ========================================================= -->
+        <div class="page" data-index="4">
+          <div class="flip-shadow" aria-hidden="true"></div>
+          <div class="page-front">
+            <div class="page-inner">
+              <p class="msg-en" lang="en">I want to thank you for the wonderful five years at Jukai School. 🌸</p>
+              <div class="mini-divider" aria-hidden="true"></div>
+              <p class="msg-jp" lang="ja"><span class="jp-unit">樹海学校</span>で過ごした素敵な5年間、<span class="jp-unit">本当に</span><span class="jp-unit">ありがとうございました</span>。</p>
+            </div>
+          </div>
+          <div class="page-back"></div>
+        </div>
+
+        <!-- =========================================================
+             PAGE 5 of 21
+             ========================================================= -->
+        <div class="page" data-index="5">
+          <div class="flip-shadow" aria-hidden="true"></div>
+          <div class="page-front">
+            <div class="page-inner">
+              <p class="msg-en" lang="en">Out of all the teachers I've worked with, you are the only teacher who talks to me about everything—not just work, but also about yourself and your interests.</p>
+              <div class="mini-divider" aria-hidden="true"></div>
+              <p class="msg-jp" lang="ja">今まで<span class="jp-unit">一緒に</span>お仕事をしてきたたくさんの先生の中で、仕事のことだけではなく、<span class="jp-unit">ご自身のこと</span>や<span class="jp-unit">好きなこと</span>、<span class="jp-unit">興味のあること</span>まで、いろんな話をしてくれたのは<span class="jp-unit">神田先生</span>だけです。</p>
+            </div>
+          </div>
+          <div class="page-back"></div>
+        </div>
+
+        <!-- =========================================================
+             PAGE 6 of 21
+             ========================================================= -->
+        <div class="page" data-index="6">
+          <div class="flip-shadow" aria-hidden="true"></div>
+          <div class="page-front">
+            <div class="page-inner">
+              <p class="msg-en" lang="en">You also always listen to my stories with such genuine interest, and I really appreciate that. 🥹</p>
+              <div class="mini-divider" aria-hidden="true"></div>
+              <p class="msg-jp" lang="ja">そして、<span class="jp-unit">私の話</span>もいつも<span class="jp-unit">興味を持って</span>聞いてくれて、<span class="jp-unit">本当に</span>嬉しかったです。そういうところも、すごくありがたく思っています。</p>
+            </div>
+          </div>
+          <div class="page-back"></div>
+        </div>
+
+        <!-- =========================================================
+             PAGE 7 of 21
+             ========================================================= -->
+        <div class="page" data-index="7">
+          <div class="flip-shadow" aria-hidden="true"></div>
+          <div class="page-front">
+            <div class="page-inner">
+              <p class="msg-en" lang="en">You always involve me in your classes, and that made me feel like I was truly part of the school, like I belonged somewhere in the Japanese community.</p>
+              <div class="mini-divider" aria-hidden="true"></div>
+              <p class="msg-jp" lang="ja">いつも授業に私を<span class="jp-unit">自然に入れて</span>くれて、それが「自分もこの<span class="jp-unit">学校の一員</span>なんだ」と感じさせてくれて、自分の<span class="jp-unit">居場所がある</span>ような気持ちにさせてくれたんです。</p>
+            </div>
+          </div>
+          <div class="page-back"></div>
+        </div>
+
+        <!-- =========================================================
+             PAGE 8 of 21
+             ========================================================= -->
+        <div class="page" data-index="8">
+          <div class="flip-shadow" aria-hidden="true"></div>
+          <div class="page-front">
+            <div class="page-inner">
+              <p class="msg-jp" lang="ja"><span class="jp-unit">外国人</span>なのに、「外人」って感じがしないようにしてくれて、<span class="jp-unit">本当に</span><span class="jp-unit">ありがとうございました</span>。</p>
+            </div>
+          </div>
+          <div class="page-back"></div>
+        </div>
+
+        <!-- =========================================================
+             PAGE 9 of 21
+             ========================================================= -->
+        <div class="page" data-index="9">
+          <div class="flip-shadow" aria-hidden="true"></div>
+          <div class="page-front">
+            <div class="page-inner">
+              <p class="msg-en" lang="en">It never felt like work whenever I had classes with you—it was always such a fun time with you and the students. 😊</p>
+              <div class="mini-divider" aria-hidden="true"></div>
+              <p class="msg-jp" lang="ja"><span class="jp-unit">神田先生</span>と<span class="jp-unit">一緒に</span>授業をしているときは、仕事をしているという感じが全然しませんでした。いつも先生や<span class="jp-unit">子どもたち</span>と<span class="jp-unit">一緒に</span><span class="jp-unit">楽しい時間</span>を過ごしている、という感じでした。</p>
+            </div>
+          </div>
+          <div class="page-back"></div>
+        </div>
+
+        <!-- =========================================================
+             PAGE 10 of 21
+             ========================================================= -->
+        <div class="page" data-index="10">
+          <div class="flip-shadow" aria-hidden="true"></div>
+          <div class="page-front">
+            <div class="page-inner">
+              <p class="msg-en" lang="en">And that's really the main reason why I always say that I enjoy visiting Jukai School: because of you.</p>
+              <div class="mini-divider" aria-hidden="true"></div>
+              <p class="msg-jp" lang="ja">だから、私がいつも「<span class="jp-unit">樹海学校</span>に行くのが楽しい」と言っていた一番の理由は、<span class="jp-unit">神田先生</span>がいたからです。</p>
+            </div>
+          </div>
+          <div class="page-back"></div>
+        </div>
+
+        <!-- =========================================================
+             PAGE 11 of 21
+             ========================================================= -->
+        <div class="page" data-index="11">
+          <div class="flip-shadow" aria-hidden="true"></div>
+          <div class="page-front">
+            <div class="page-inner">
+              <p class="msg-en" lang="en">I also want to express my appreciation to you for organizing a farewell ceremony for me. 🙏</p>
+              <div class="mini-divider" aria-hidden="true"></div>
+              <p class="msg-jp" lang="ja">それから、<span class="jp-unit">私のために</span><span class="jp-unit">送別会</span>をやってくれたことも、心から<span class="jp-unit">感謝しています</span>。</p>
+            </div>
+          </div>
+          <div class="page-back"></div>
+        </div>
+
+        <!-- =========================================================
+             PAGE 12 of 21
+             ========================================================= -->
+        <div class="page" data-index="12">
+          <div class="flip-shadow" aria-hidden="true"></div>
+          <div class="page-front">
+            <div class="page-inner">
+              <p class="msg-en" lang="en">I didn't expect anything on my last day at Jukai School because I thought all the teachers and students would be too busy... so I was really touched by the effort everyone put into giving me a farewell ceremony.</p>
+              <div class="mini-divider" aria-hidden="true"></div>
+              <p class="msg-jp" lang="ja"><span class="jp-unit">樹海学校</span>での<span class="jp-unit">最後の日</span>は、先生たちも<span class="jp-unit">子どもたち</span>もみんな忙しいと思っていたので、<span class="jp-unit">何かしてもらえる</span>なんて全然思っていませんでした……。それなのに、<span class="jp-unit">私のために</span>こんな素敵な<span class="jp-unit">送別会</span>を開いてくれて、<span class="jp-unit">本当に</span><span class="jp-unit">感謝と感動</span>でいっぱいでした。</p>
+            </div>
+          </div>
+          <div class="page-back"></div>
+        </div>
+
+        <!-- =========================================================
+             PAGE 13 of 21
+             ========================================================= -->
+        <div class="page" data-index="13">
+          <div class="flip-shadow" aria-hidden="true"></div>
+          <div class="page-front">
+            <div class="page-inner">
+              <p class="msg-en" lang="en">I will never forget my time at Jukai School. There were just so many wonderful memories! ❤️</p>
+              <div class="mini-divider" aria-hidden="true"></div>
+              <p class="msg-jp" lang="ja"><span class="jp-unit">樹海学校</span>で過ごした時間は、<span class="jp-unit">絶対に</span>忘れません。<span class="jp-unit">本当に</span>たくさんの<span class="jp-unit">素敵な思い出</span>ができました！</p>
+            </div>
+          </div>
+          <div class="page-back"></div>
+        </div>
+
+        <!-- =========================================================
+             PAGE 14 of 21
+             ========================================================= -->
+        <div class="page" data-index="14">
+          <div class="flip-shadow" aria-hidden="true"></div>
+          <div class="page-front">
+            <div class="page-inner">
+              <p class="msg-en" lang="en">Kanda Sensei, you are a WONDERFUL teacher.</p>
+              <div class="mini-divider" aria-hidden="true"></div>
+              <p class="msg-jp" lang="ja"><span class="jp-unit">神田先生</span>は、<span class="jp-unit">本当に</span><span class="jp-unit">素敵な先生</span>です。</p>
+            </div>
+          </div>
+          <div class="page-back"></div>
+        </div>
+
+        <!-- =========================================================
+             PAGE 15 of 21
+             ========================================================= -->
+        <div class="page" data-index="15">
+          <div class="flip-shadow" aria-hidden="true"></div>
+          <div class="page-front">
+            <div class="page-inner">
+              <p class="msg-en" lang="en">I know you put so much hard work into teaching and looking after your students' well-being. I'm sure the students can see that, too.</p>
+              <div class="mini-divider" aria-hidden="true"></div>
+              <p class="msg-jp" lang="ja"><span class="jp-unit">神田先生</span>が、<span class="jp-unit">子どもたち</span>に教えることだけではなく、<span class="jp-unit">一人ひとりのこと</span>を<span class="jp-unit">大切に考えて</span>、いつも<span class="jp-unit">一生懸命</span><span class="jp-unit">頑張っている</span>のを知っています。きっと<span class="jp-unit">子どもたち</span>にも、<span class="jp-unit">神田先生</span>のそういう<span class="jp-unit">気持ちは伝わっている</span>と思います。</p>
+            </div>
+          </div>
+          <div class="page-back"></div>
+        </div>
+
+        <!-- =========================================================
+             PAGE 16 of 21
+             ========================================================= -->
+        <div class="page" data-index="16">
+          <div class="flip-shadow" aria-hidden="true"></div>
+          <div class="page-front">
+            <div class="page-inner">
+              <p class="msg-en" lang="en">I think we had great chemistry when we taught together, and it's really rare to meet another teacher like you.</p>
+              <div class="mini-divider" aria-hidden="true"></div>
+              <p class="msg-jp" lang="ja">私は、<span class="jp-unit">神田先生</span>と<span class="jp-unit">一緒に</span>授業をしていたとき、<span class="jp-unit">本当に</span><span class="jp-unit">気が合っていた</span>とずっと思っています。<span class="jp-unit">神田先生</span>みたいな先生に<span class="jp-unit">出会えたらいいな</span>ーと思いますが、こんな先生は<span class="jp-unit">なかなかいない</span>よね？って思っています。</p>
+            </div>
+          </div>
+          <div class="page-back"></div>
+        </div>
+
+        <!-- =========================================================
+             PAGE 17 of 21
+             ========================================================= -->
+        <div class="page" data-index="17">
+          <div class="flip-shadow" aria-hidden="true"></div>
+          <div class="page-front">
+            <div class="page-inner">
+              <p class="msg-en" lang="en">I have learned so much from your classes, and I will try my best to apply what I've learned in my new teaching role at the elementary schools.</p>
+              <div class="mini-divider" aria-hidden="true"></div>
+              <p class="msg-jp" lang="ja"><span class="jp-unit">神田先生</span>の授業から<span class="jp-unit">本当に</span>たくさんのことを学びました。これから<span class="jp-unit">小学校</span>で<span class="jp-unit">新しい仕事</span>をする中で、<span class="jp-unit">学んだこと</span>を<span class="jp-unit">少しでも活かせるように</span>頑張りたいと思います。</p>
+            </div>
+          </div>
+          <div class="page-back"></div>
+        </div>
+
+        <!-- =========================================================
+             PAGE 18 of 21
+             ========================================================= -->
+        <div class="page" data-index="18">
+          <div class="flip-shadow" aria-hidden="true"></div>
+          <div class="page-front">
+            <div class="page-inner">
+              <p class="msg-en" lang="en">Please don't ever give up teaching! 💪</p>
+              <div class="mini-divider" aria-hidden="true"></div>
+              <p class="msg-jp" lang="ja"><span class="jp-unit">神田先生</span>、<span class="jp-unit">これからも</span><span class="jp-unit">絶対に</span>先生を<span class="jp-unit">続けてくださいね</span>！</p>
+            </div>
+          </div>
+          <div class="page-back"></div>
+        </div>
+
+        <!-- =========================================================
+             PAGE 19 of 21
+             ========================================================= -->
+        <div class="page" data-index="19">
+          <div class="flip-shadow" aria-hidden="true"></div>
+          <div class="page-front">
+            <div class="page-inner">
+              <p class="msg-en" lang="en">I hope we'll be able to teach together again someday. And even if that doesn't happen anytime soon, let's go out for a nice meal together! 🍻</p>
+              <div class="mini-divider" aria-hidden="true"></div>
+              <p class="msg-jp" lang="ja">またいつか、<span class="jp-unit">一緒に</span>授業ができたらいいなと思っています。もしそれがすぐには叶わなくても、今度ぜひ<span class="jp-unit">一緒に</span><span class="jp-unit">美味しいもの</span>を食べに行きましょう！🍻</p>
+            </div>
+          </div>
+          <div class="page-back"></div>
+        </div>
+
+        <!-- =========================================================
+             PAGE 20 of 21
+             ========================================================= -->
+        <div class="page" data-index="20">
+          <div class="flip-shadow" aria-hidden="true"></div>
+          <div class="page-front">
+            <div class="page-inner">
+              <p class="msg-en" lang="en">Take care, and see you again! 👋</p>
+              <div class="mini-divider" aria-hidden="true"></div>
+              <p class="msg-jp" lang="ja"><span class="jp-unit">また<span class="jp-unit">会いましょう</span></span>！👋</p>
+            </div>
+          </div>
+          <div class="page-back"></div>
+        </div>
+
+        <!-- =========================================================
+             PAGE 21 of 21 — FINAL PAGE (closing message + signature)
+             ========================================================= -->
+        <div class="page" data-index="21">
+          <div class="flip-shadow" aria-hidden="true"></div>
+          <div class="page-front">
+            <div class="final-decor" aria-hidden="true">
+              <span>&#9825;</span><span>&#9834;</span><span>&#9825;</span><span>&#9835;</span><span>&#9825;</span>
+            </div>
+            <div class="page-inner">
+              <div class="cover-clef" aria-hidden="true" style="font-size:32px;">&#119070;</div>
+
+              <!-- EDIT: Final closing message -->
+              <p class="msg-en" lang="en">I WILL MISS YOU! 😭</p>
+              <!-- /EDIT -->
+
+              <div class="divider" aria-hidden="true"></div>
+
+              <!-- EDIT: Your signature -->
+              <p class="signature">by Valerie Lin (Furano ALT)</p>
+              <!-- /EDIT -->
+            </div>
+          </div>
+          <div class="page-back"></div>
+        </div>
+
+      </div><!-- /.book -->
+    </div><!-- /.book-wrap -->
+
+    <!-- controls: back button / progress bar / counter -->
+    <div class="controls" id="controls">
+      <button class="back-btn" id="backBtn" type="button" aria-label="Go back a page">&#8249; Back</button>
+      <div class="progress-track" aria-hidden="true"><div class="progress-fill" id="progressFill"></div></div>
+      <span class="counter" id="counter"></span>
+    </div>
+
+  </div><!-- /.stage -->
+
+<script>
+  /* ============================================================
+     MUSIC SETTINGS — CHANGE ONLY THIS LINE
+     ============================================================
+     Put an MP3 in a folder named "music" beside index.html, then
+     change the filename below. You can also use a direct MP3 URL.
+  */
+  const MUSIC_URL = "music/my-music.mp3";
+  const MUSIC_VOLUME = 0.35;
+
+  (function setupMusic(){
+    var audio=document.getElementById('bgMusic');
+    audio.src=MUSIC_URL;
+    audio.volume=MUSIC_VOLUME;
+    function startMusic(){
+      audio.play().catch(function(){});
+      document.removeEventListener('pointerdown',startMusic);
+      document.removeEventListener('keydown',startMusic);
+    }
+    document.addEventListener('pointerdown',startMusic,{once:true});
+    document.addEventListener('keydown',startMusic,{once:true});
+  })();
+
+(function(){
+  "use strict";
+
+  var book     = document.getElementById('book');
+  var pages    = Array.prototype.slice.call(book.querySelectorAll('.page'));
+  var total    = pages.length;              // total pages including cover
+  var backBtn  = document.getElementById('backBtn');
+  var progressFill = document.getElementById('progressFill');
+  var counter  = document.getElementById('counter');
+  var controls = document.getElementById('controls');
+
+  var current   = 0;      // index of the currently visible (top) page
+  var animating = false;  // simple lock so clicks can't outrun the animation
+  var FLIP_MS   = 1000;   // keep in sync with --flip-duration in CSS
+
+  // stack the pages so page 0 is physically on top at the start
+  pages.forEach(function(p, i){ p.style.zIndex = total - i; });
+
+  function updateControls(){
+    var opened = current > 0;
+    controls.classList.toggle('visible', opened);
+    backBtn.disabled = !opened;
+
+    var pct = opened ? (current / (total - 1)) * 100 : 0;
+    progressFill.style.width = pct + '%';
+
+    counter.textContent = opened ? (current + ' / ' + (total - 1)) : '';
+
+    book.classList.toggle('on-final', current === total - 1);
+  }
+
+  function next(){
+    if (animating || current >= total - 1) return;
+    animating = true;
+    var p = pages[current];
+    p.classList.add('flipping');
+    void p.offsetWidth;
+    p.classList.add('flipped');
+    current++;
+    updateControls();
+    window.setTimeout(function(){
+      p.classList.remove('flipping');
+      animating = false;
+    }, FLIP_MS);
+  }
+
+  function prev(){
+    if (animating || current <= 0) return;
+    animating = true;
+    current--;
+    var p = pages[current];
+    p.classList.add('flipping');
+    void p.offsetWidth;
+    p.classList.remove('flipped');
+    updateControls();
+    window.setTimeout(function(){
+      p.classList.remove('flipping');
+      animating = false;
+    }, FLIP_MS);
+  }
+
+  // clicking anywhere on the book/card advances to the next page
+  book.addEventListener('click', function(){ next(); });
+
+  // back button must not also trigger the "advance" click on the book
+  backBtn.addEventListener('click', function(e){
+    e.stopPropagation();
+    prev();
+  });
+
+  // keyboard support
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter'){
+      e.preventDefault();
+      next();
+    } else if (e.key === 'ArrowLeft'){
+      e.preventDefault();
+      prev();
+    }
+  });
+
+  updateControls();
+})();
+</script>
+</body>
+</html>
+```

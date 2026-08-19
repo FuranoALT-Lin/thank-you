@@ -3,25 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>A Big Thank You</title>
+<title>A Big Thank You — for Kanda Sensei</title>
 
 <!--
   ================================================================
   HOW TO EDIT THIS CARD
   ================================================================
-  All the text you'll want to personalise is inside <!-- EDIT --> comment
-  blocks in the <body> below, in this order:
-
-    1. Cover        -> title text + who it's for
-    2. "Dear ___,"   -> recipient's name
-    3. Message 1
-    4. Message 2
-    5. Message 3
-    6. Final page    -> closing message + your name / signature
-
-  Just find the comment, and change the text between the tags under it.
-  Nothing else needs to change. Save the file and reopen it in your
-  browser to preview.
+  - The cover text is marked with <!-- EDIT: Cover title/subtitle --> below.
+  - Each message page (1-21) contains your English line (class="msg-en")
+    and, where provided, the Japanese line (class="msg-jp"). Just edit
+    the text between the <p> tags directly.
+  - The very last page has the closing line + signature, marked with
+    <!-- EDIT: Final closing message --> and <!-- EDIT: Your signature -->.
+  - Nothing else needs to change. Save the file and reopen it in a
+    browser (or just refresh GitHub Pages) to preview.
   ================================================================
 -->
 
@@ -43,12 +38,11 @@
 
     --font-display: "Playfair Display", Palatino, "Palatino Linotype", Georgia, "Times New Roman", serif;
     --font-body:    "Cormorant Garamond", "EB Garamond", Georgia, "Times New Roman", serif;
-    --font-script:  "Playfair Display", Georgia, serif;
 
     --flip-duration: 1000ms;
   }
 
-  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Noto+Serif+JP:wght@400;500&display=swap');
 
   *{ box-sizing:border-box; }
   html,body{ height:100%; }
@@ -115,8 +109,8 @@
   .book-wrap{
     position:relative;
     width:min(92vw, 480px);
-    height: min(74vh, 640px);
-    height: min(74dvh, 640px);
+    height: min(76vh, 660px);
+    height: min(76dvh, 660px);
     perspective: 2600px;
   }
 
@@ -208,6 +202,7 @@
     opacity:0;
     pointer-events:none;
     border-radius:inherit;
+    z-index:5;
   }
   .page.flipping .flip-shadow{ animation: shadow-sweep var(--flip-duration) ease; }
   @keyframes shadow-sweep{
@@ -224,11 +219,16 @@
     align-items:center;
     justify-content:center;
     text-align:center;
-    padding: clamp(22px, 6%, 44px);
-    gap: clamp(10px, 2.4vh, 18px);
+    padding: clamp(24px, 7%, 46px) clamp(20px, 7%, 42px);
+    gap: clamp(8px, 1.8vh, 14px);
+    overflow-y:auto;
+    scrollbar-width:thin;
+    scrollbar-color: var(--dusty-pink) transparent;
   }
+  .page-inner::-webkit-scrollbar{ width:5px; }
+  .page-inner::-webkit-scrollbar-thumb{ background: var(--dusty-pink); border-radius:4px; }
 
-  /* ---------- small musical corner ornaments on every page ---------- */
+  /* ---------- small musical corner ornaments ---------- */
   .corner-note{
     position:absolute;
     font-family: var(--font-display);
@@ -262,13 +262,29 @@
     color: var(--rose-deep);
     font-style:normal;
   }
-  p.page-text{
+  p.msg-en{
     font-family: var(--font-body);
-    font-size: clamp(17px, 3.6vw, 22px);
-    line-height:1.6;
+    font-style:italic;
+    font-size: clamp(15px, 3.1vw, 19px);
+    line-height:1.55;
     color: var(--ink);
-    max-width: 34ch;
+    max-width: 38ch;
     margin:0;
+  }
+  p.msg-jp{
+    font-family: "Noto Serif JP", var(--font-body), serif;
+    font-size: clamp(13.5px, 2.7vw, 16px);
+    line-height:1.95;
+    color: var(--rose-deep);
+    max-width: 30ch;
+    margin:0;
+    letter-spacing:.01em;
+  }
+  .mini-divider{
+    width:34px; height:1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    opacity:.7;
+    margin:2px 0;
   }
   .divider{
     width:64px; height:1px;
@@ -356,7 +372,7 @@
     font-family: var(--font-display);
     font-style:italic;
     color: var(--burgundy);
-    font-size: clamp(18px, 4vw, 24px);
+    font-size: clamp(17px, 3.6vw, 22px);
   }
 
   /* ============================================================
@@ -368,7 +384,7 @@
     display:flex;
     align-items:center;
     justify-content:center;
-    gap:18px;
+    gap:14px;
     width:min(92vw, 480px);
     min-height:34px;
     opacity:0;
@@ -395,27 +411,26 @@
     cursor:pointer;
     transition: background .25s ease, color .25s ease, opacity .25s ease;
     opacity:1;
+    flex-shrink:0;
   }
   .back-btn:hover{ background: var(--blush); }
   .back-btn:disabled{ opacity:0; pointer-events:none; }
   .back-btn:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
 
-  .dots{
-    display:flex;
-    align-items:center;
-    gap:8px;
+  .progress-track{
+    flex:1;
+    max-width:200px;
+    height:4px;
+    border-radius:3px;
+    background: rgba(217,163,172,.3);
+    overflow:hidden;
   }
-  .dots span{
-    font-family: var(--font-display);
-    font-size:13px;
-    color: var(--dusty-pink);
-    opacity:.4;
-    transition: opacity .3s ease, color .3s ease, transform .3s ease;
-  }
-  .dots span.active{
-    opacity:1;
-    color: var(--rose-deep);
-    transform: scale(1.25);
+  .progress-fill{
+    height:100%;
+    width:0%;
+    background: linear-gradient(to right, var(--gold), var(--rose-deep));
+    border-radius:3px;
+    transition: width .5s ease;
   }
 
   .counter{
@@ -423,21 +438,22 @@
     font-style:italic;
     font-size:13px;
     color: var(--rose-deep);
-    opacity:.75;
-    min-width:44px;
+    opacity:.8;
+    min-width:48px;
     text-align:right;
+    flex-shrink:0;
   }
 
   /* ============================================================
      RESPONSIVE TWEAKS
      ============================================================ */
   @media (max-width: 380px){
-    .page-inner{ padding: 20px 18px; gap:10px; }
+    .page-inner{ padding: 20px 18px; gap:8px; }
     .corner-note{ font-size:16px; }
   }
 
   @media (min-width: 900px){
-    .book-wrap{ width:min(40vw, 520px); height:min(78vh, 700px); }
+    .book-wrap{ width:min(40vw, 520px); height:min(80vh, 720px); }
   }
 
   /* Respect reduced motion preference */
@@ -480,8 +496,8 @@
 
               <div class="divider" aria-hidden="true"></div>
 
-              <!-- EDIT: Optional line under the title on the cover (who it's for). Leave text empty between the tags to hide it. -->
-              <p class="cover-sub">for a truly wonderful friend</p>
+              <!-- EDIT: Optional line under the title on the cover -->
+              <p class="cover-sub">for Kanda Sensei &middot; 神田先生へ</p>
               <!-- /EDIT -->
 
               <p class="hint">click to open &#9825;</p>
@@ -492,83 +508,308 @@
         </div>
 
         <!-- =========================================================
-             PAGE 1 — "Dear ______,"
+             PAGE 1 of 21
              ========================================================= -->
         <div class="page" data-index="1">
           <div class="flip-shadow" aria-hidden="true"></div>
           <div class="page-front">
             <div class="corner-note tl" aria-hidden="true">&#9834;</div>
-            <div class="page-inner">
-              <span class="eyebrow">a little note</span>
-
-              <!-- EDIT: Recipient's name -->
-              <h1 class="page-title">Dear <span class="page-name">Friend</span>,</h1>
-              <!-- /EDIT -->
-
-              <div class="divider" aria-hidden="true"></div>
-
-              <p class="page-text">There's something I've been wanting to tell you properly&hellip;</p>
+<div class="page-inner">
+              <p class="msg-en" lang="en">I've wanted to write you a message since the start of summer vacation, but it took me some time because I've been trying to learn how to make a website. It was quite difficult for me because I've never learned coding before!</p>
+              <div class="mini-divider" aria-hidden="true"></div>
+              <p class="msg-jp" lang="ja">夏休みに入った頃から神田先生にメッセージを書きたいと思っていたんですが、ウェブサイトを作る方法を勉強していたので、少し時間がかかってしまいました。今までコーディングなんて勉強したことがなかったので、私にはけっこう難しかったです！</p>
             </div>
-            <div class="corner-note br" aria-hidden="true">&#9834;</div>
           </div>
           <div class="page-back"></div>
         </div>
 
         <!-- =========================================================
-             PAGE 2 — MESSAGE 1
+             PAGE 2 of 21
              ========================================================= -->
         <div class="page" data-index="2">
           <div class="flip-shadow" aria-hidden="true"></div>
           <div class="page-front">
-            <div class="corner-note tl" aria-hidden="true">&#9835;</div>
             <div class="page-inner">
-              <!-- EDIT: Message 1 -->
-              <p class="page-text">Some people make ordinary days feel like music &mdash; effortless, warm, and full of little grace notes only you would notice. Thank you for being one of those people in my life.</p>
-              <!-- /EDIT -->
+              <p class="msg-en" lang="en">Thanks to AI (Claude.ai), I was able to get some advice and simplified instructions on how to make one.</p>
+              <div class="mini-divider" aria-hidden="true"></div>
+              <p class="msg-jp" lang="ja">AI（Claude.ai）のおかげで、作り方についていろいろアドバイスをもらったり、分かりやすく簡単に説明してもらったりして、なんとか作ることができました。</p>
             </div>
-            <div class="corner-note br" aria-hidden="true">&#9825;</div>
           </div>
           <div class="page-back"></div>
         </div>
 
         <!-- =========================================================
-             PAGE 3 — MESSAGE 2
+             PAGE 3 of 21
              ========================================================= -->
         <div class="page" data-index="3">
           <div class="flip-shadow" aria-hidden="true"></div>
           <div class="page-front">
-            <div class="corner-note tl" aria-hidden="true">&#9825;</div>
             <div class="page-inner">
-              <!-- EDIT: Message 2 -->
-              <p class="page-text">Your kindness has been a quiet melody underneath so many of my hardest days &mdash; steady and reassuring, even when I forgot to say so. I noticed. I am so grateful.</p>
-              <!-- /EDIT -->
+              <p class="msg-en" lang="en">And this, my very first website, was made especially for you! 💌</p>
+              <div class="mini-divider" aria-hidden="true"></div>
+              <p class="msg-jp" lang="ja">そして、これが神田先生のために特別に作った、私にとって初めてのウェブサイトです！</p>
             </div>
-            <div class="corner-note br" aria-hidden="true">&#9834;</div>
           </div>
           <div class="page-back"></div>
         </div>
 
         <!-- =========================================================
-             PAGE 4 — MESSAGE 3
+             PAGE 4 of 21
              ========================================================= -->
         <div class="page" data-index="4">
           <div class="flip-shadow" aria-hidden="true"></div>
           <div class="page-front">
-            <div class="corner-note tl" aria-hidden="true">&#9835;</div>
             <div class="page-inner">
-              <!-- EDIT: Message 3 -->
-              <p class="page-text">Thank you for the laughter, the late-night talks, and the way you show up &mdash; again and again &mdash; without ever needing to be asked twice. Friends like you are rare, and I know how lucky I am.</p>
-              <!-- /EDIT -->
+              <p class="msg-en" lang="en">I want to thank you for the wonderful five years at Jukai School. 🌸</p>
+              <div class="mini-divider" aria-hidden="true"></div>
+              <p class="msg-jp" lang="ja">樹海学校で過ごした素敵な5年間、本当にありがとうございました。</p>
             </div>
-            <div class="corner-note br" aria-hidden="true">&#9825;</div>
           </div>
           <div class="page-back"></div>
         </div>
 
         <!-- =========================================================
-             PAGE 5 — FINAL PAGE (closing message + signature)
+             PAGE 5 of 21
              ========================================================= -->
         <div class="page" data-index="5">
+          <div class="flip-shadow" aria-hidden="true"></div>
+          <div class="page-front">
+            <div class="page-inner">
+              <p class="msg-en" lang="en">Out of all the teachers I've worked with, you are the only teacher who talks to me about everything—not just work, but also about yourself and your interests.</p>
+              <div class="mini-divider" aria-hidden="true"></div>
+              <p class="msg-jp" lang="ja">今まで一緒にお仕事をしてきたたくさんの先生の中で、仕事のことだけではなく、ご自身のことや好きなこと、興味のあることまで、いろんな話をしてくれたのは神田先生だけです。</p>
+            </div>
+          </div>
+          <div class="page-back"></div>
+        </div>
+
+        <!-- =========================================================
+             PAGE 6 of 21
+             ========================================================= -->
+        <div class="page" data-index="6">
+          <div class="flip-shadow" aria-hidden="true"></div>
+          <div class="page-front">
+            <div class="page-inner">
+              <p class="msg-en" lang="en">You also always listen to my stories with such genuine interest, and I really appreciate that. 🥹</p>
+              <div class="mini-divider" aria-hidden="true"></div>
+              <p class="msg-jp" lang="ja">そして、私の話もいつも興味を持って聞いてくれて、本当に嬉しかったです。そういうところも、すごくありがたく思っています。</p>
+            </div>
+          </div>
+          <div class="page-back"></div>
+        </div>
+
+        <!-- =========================================================
+             PAGE 7 of 21
+             ========================================================= -->
+        <div class="page" data-index="7">
+          <div class="flip-shadow" aria-hidden="true"></div>
+          <div class="page-front">
+            <div class="page-inner">
+              <p class="msg-en" lang="en">You always involve me in your classes, and that made me feel like I was truly part of the school, like I belonged somewhere in the Japanese community.</p>
+              <div class="mini-divider" aria-hidden="true"></div>
+              <p class="msg-jp" lang="ja">いつも授業に私を自然に入れてくれて、それが「自分もこの学校の一員なんだ」と感じさせてくれて、自分の居場所があるような気持ちにさせてくれたんです。</p>
+            </div>
+          </div>
+          <div class="page-back"></div>
+        </div>
+
+        <!-- =========================================================
+             PAGE 8 of 21
+             ========================================================= -->
+        <div class="page" data-index="8">
+          <div class="flip-shadow" aria-hidden="true"></div>
+          <div class="page-front">
+            <div class="page-inner">
+              <p class="msg-jp" lang="ja">外国人なのに、「外人」って感じがしないようにしてくれて、本当にありがとうございました。</p>
+            </div>
+          </div>
+          <div class="page-back"></div>
+        </div>
+
+        <!-- =========================================================
+             PAGE 9 of 21
+             ========================================================= -->
+        <div class="page" data-index="9">
+          <div class="flip-shadow" aria-hidden="true"></div>
+          <div class="page-front">
+            <div class="page-inner">
+              <p class="msg-en" lang="en">It never felt like work whenever I had classes with you—it was always such a fun time with you and the students. 😊</p>
+              <div class="mini-divider" aria-hidden="true"></div>
+              <p class="msg-jp" lang="ja">神田先生と一緒に授業をしているときは、仕事をしているという感じが全然しませんでした。いつも先生や子どもたちと一緒に楽しい時間を過ごしている、という感じでした。</p>
+            </div>
+          </div>
+          <div class="page-back"></div>
+        </div>
+
+        <!-- =========================================================
+             PAGE 10 of 21
+             ========================================================= -->
+        <div class="page" data-index="10">
+          <div class="flip-shadow" aria-hidden="true"></div>
+          <div class="page-front">
+            <div class="page-inner">
+              <p class="msg-en" lang="en">And that's really the main reason why I always say that I enjoy visiting Jukai School: because of you.</p>
+              <div class="mini-divider" aria-hidden="true"></div>
+              <p class="msg-jp" lang="ja">だから、私がいつも「樹海学校に行くのが楽しい」と言っていた一番の理由は、神田先生がいたからです。</p>
+            </div>
+          </div>
+          <div class="page-back"></div>
+        </div>
+
+        <!-- =========================================================
+             PAGE 11 of 21
+             ========================================================= -->
+        <div class="page" data-index="11">
+          <div class="flip-shadow" aria-hidden="true"></div>
+          <div class="page-front">
+            <div class="page-inner">
+              <p class="msg-en" lang="en">I also want to express my appreciation to you for organizing a farewell ceremony for me. 🙏</p>
+              <div class="mini-divider" aria-hidden="true"></div>
+              <p class="msg-jp" lang="ja">それから、私のために送別会をやってくれたことも、心から感謝しています。</p>
+            </div>
+          </div>
+          <div class="page-back"></div>
+        </div>
+
+        <!-- =========================================================
+             PAGE 12 of 21
+             ========================================================= -->
+        <div class="page" data-index="12">
+          <div class="flip-shadow" aria-hidden="true"></div>
+          <div class="page-front">
+            <div class="page-inner">
+              <p class="msg-en" lang="en">I didn't expect anything on my last day at Jukai School because I thought all the teachers and students would be too busy... so I was really touched by the effort everyone put into giving me a farewell ceremony.</p>
+              <div class="mini-divider" aria-hidden="true"></div>
+              <p class="msg-jp" lang="ja">樹海学校での最後の日は、先生たちも子どもたちもみんな忙しいと思っていたので、何かしてもらえるなんて全然思っていませんでした……。それなのに、私のためにこんな素敵な送別会を開いてくれて、本当に感謝と感動でいっぱいでした。</p>
+            </div>
+          </div>
+          <div class="page-back"></div>
+        </div>
+
+        <!-- =========================================================
+             PAGE 13 of 21
+             ========================================================= -->
+        <div class="page" data-index="13">
+          <div class="flip-shadow" aria-hidden="true"></div>
+          <div class="page-front">
+            <div class="page-inner">
+              <p class="msg-en" lang="en">I will never forget my time at Jukai School. There were just so many wonderful memories! ❤️</p>
+              <div class="mini-divider" aria-hidden="true"></div>
+              <p class="msg-jp" lang="ja">樹海学校で過ごした時間は、絶対に忘れません。本当にたくさんの素敵な思い出ができました！</p>
+            </div>
+          </div>
+          <div class="page-back"></div>
+        </div>
+
+        <!-- =========================================================
+             PAGE 14 of 21
+             ========================================================= -->
+        <div class="page" data-index="14">
+          <div class="flip-shadow" aria-hidden="true"></div>
+          <div class="page-front">
+            <div class="page-inner">
+              <p class="msg-en" lang="en">Kanda Sensei, you are a WONDERFUL teacher.</p>
+              <div class="mini-divider" aria-hidden="true"></div>
+              <p class="msg-jp" lang="ja">神田先生は、本当に素敵な先生です。</p>
+            </div>
+          </div>
+          <div class="page-back"></div>
+        </div>
+
+        <!-- =========================================================
+             PAGE 15 of 21
+             ========================================================= -->
+        <div class="page" data-index="15">
+          <div class="flip-shadow" aria-hidden="true"></div>
+          <div class="page-front">
+            <div class="page-inner">
+              <p class="msg-en" lang="en">I know you put so much hard work into teaching and looking after your students' well-being. I'm sure the students can see that, too.</p>
+              <div class="mini-divider" aria-hidden="true"></div>
+              <p class="msg-jp" lang="ja">神田先生が、子どもたちに教えることだけではなく、一人ひとりのことを大切に考えて、いつも一生懸命頑張っているのを知っています。きっと子どもたちにも、神田先生のそういう気持ちは伝わっていると思います。</p>
+            </div>
+          </div>
+          <div class="page-back"></div>
+        </div>
+
+        <!-- =========================================================
+             PAGE 16 of 21
+             ========================================================= -->
+        <div class="page" data-index="16">
+          <div class="flip-shadow" aria-hidden="true"></div>
+          <div class="page-front">
+            <div class="page-inner">
+              <p class="msg-en" lang="en">I think we had great chemistry when we taught together, and it's really rare to meet another teacher like you.</p>
+              <div class="mini-divider" aria-hidden="true"></div>
+              <p class="msg-jp" lang="ja">私は、神田先生と一緒に授業をしていたとき、本当に気が合っていたとずっと思っています。神田先生みたいな先生に出会えたらいいなーと思いますが、こんな先生はなかなかいないよね？って思っています。</p>
+            </div>
+          </div>
+          <div class="page-back"></div>
+        </div>
+
+        <!-- =========================================================
+             PAGE 17 of 21
+             ========================================================= -->
+        <div class="page" data-index="17">
+          <div class="flip-shadow" aria-hidden="true"></div>
+          <div class="page-front">
+            <div class="page-inner">
+              <p class="msg-en" lang="en">I have learned so much from your classes, and I will try my best to apply what I've learned in my new teaching role at the elementary schools.</p>
+              <div class="mini-divider" aria-hidden="true"></div>
+              <p class="msg-jp" lang="ja">神田先生の授業から本当にたくさんのことを学びました。これから小学校で新しい仕事をする中で、学んだことを少しでも活かせるように頑張りたいと思います。</p>
+            </div>
+          </div>
+          <div class="page-back"></div>
+        </div>
+
+        <!-- =========================================================
+             PAGE 18 of 21
+             ========================================================= -->
+        <div class="page" data-index="18">
+          <div class="flip-shadow" aria-hidden="true"></div>
+          <div class="page-front">
+            <div class="page-inner">
+              <p class="msg-en" lang="en">Please don't ever give up teaching! 💪</p>
+              <div class="mini-divider" aria-hidden="true"></div>
+              <p class="msg-jp" lang="ja">神田先生、これからも絶対に先生を続けてくださいね！</p>
+            </div>
+          </div>
+          <div class="page-back"></div>
+        </div>
+
+        <!-- =========================================================
+             PAGE 19 of 21
+             ========================================================= -->
+        <div class="page" data-index="19">
+          <div class="flip-shadow" aria-hidden="true"></div>
+          <div class="page-front">
+            <div class="page-inner">
+              <p class="msg-en" lang="en">I hope we'll be able to teach together again someday. And even if that doesn't happen anytime soon, let's go out for a nice meal together! 🍻</p>
+              <div class="mini-divider" aria-hidden="true"></div>
+              <p class="msg-jp" lang="ja">またいつか、一緒に授業ができたらいいなと思っています。もしそれがすぐには叶わなくても、今度ぜひ一緒に美味しいものを食べに行きましょう！🍻</p>
+            </div>
+          </div>
+          <div class="page-back"></div>
+        </div>
+
+        <!-- =========================================================
+             PAGE 20 of 21
+             ========================================================= -->
+        <div class="page" data-index="20">
+          <div class="flip-shadow" aria-hidden="true"></div>
+          <div class="page-front">
+            <div class="page-inner">
+              <p class="msg-en" lang="en">Take care, and see you again! 👋</p>
+              <div class="mini-divider" aria-hidden="true"></div>
+              <p class="msg-jp" lang="ja">また会いましょう！👋</p>
+            </div>
+          </div>
+          <div class="page-back"></div>
+        </div>
+
+        <!-- =========================================================
+             PAGE 21 of 21 — FINAL PAGE (closing message + signature)
+             ========================================================= -->
+        <div class="page" data-index="21">
           <div class="flip-shadow" aria-hidden="true"></div>
           <div class="page-front">
             <div class="final-decor" aria-hidden="true">
@@ -578,13 +819,13 @@
               <div class="cover-clef" aria-hidden="true" style="font-size:32px;">&#119070;</div>
 
               <!-- EDIT: Final closing message -->
-              <p class="page-text">So here's to more shared songs, more good days, and more reasons to say thank you. This is just one small note in what I hope is a much longer symphony.</p>
+              <p class="msg-en" lang="en">I WILL MISS YOU! 😭</p>
               <!-- /EDIT -->
 
               <div class="divider" aria-hidden="true"></div>
 
-              <!-- EDIT: Your signature — replace "Your Name" -->
-              <p class="signature">With love,<br>Your Name &#9825;</p>
+              <!-- EDIT: Your signature -->
+              <p class="signature">by Valerie Lin (Furano ALT)</p>
               <!-- /EDIT -->
             </div>
           </div>
@@ -594,10 +835,10 @@
       </div><!-- /.book -->
     </div><!-- /.book-wrap -->
 
-    <!-- controls: back button / progress dots / counter -->
+    <!-- controls: back button / progress bar / counter -->
     <div class="controls" id="controls">
       <button class="back-btn" id="backBtn" type="button" aria-label="Go back a page">&#8249; Back</button>
-      <div class="dots" id="dots" aria-hidden="true"></div>
+      <div class="progress-track" aria-hidden="true"><div class="progress-fill" id="progressFill"></div></div>
       <span class="counter" id="counter"></span>
     </div>
 
@@ -611,7 +852,7 @@
   var pages    = Array.prototype.slice.call(book.querySelectorAll('.page'));
   var total    = pages.length;              // total pages including cover
   var backBtn  = document.getElementById('backBtn');
-  var dotsWrap = document.getElementById('dots');
+  var progressFill = document.getElementById('progressFill');
   var counter  = document.getElementById('counter');
   var controls = document.getElementById('controls');
 
@@ -622,24 +863,13 @@
   // stack the pages so page 0 is physically on top at the start
   pages.forEach(function(p, i){ p.style.zIndex = total - i; });
 
-  // build the progress dots for the "content" pages (i.e. everything
-  // after the cover: Dear, Message 1-3, Final)
-  for (var i = 1; i < total; i++){
-    var d = document.createElement('span');
-    d.textContent = '\u266A'; // musical note
-    d.dataset.index = i;
-    dotsWrap.appendChild(d);
-  }
-  var dotEls = Array.prototype.slice.call(dotsWrap.children);
-
   function updateControls(){
     var opened = current > 0;
     controls.classList.toggle('visible', opened);
     backBtn.disabled = !opened;
 
-    dotEls.forEach(function(d){
-      d.classList.toggle('active', Number(d.dataset.index) === current);
-    });
+    var pct = opened ? (current / (total - 1)) * 100 : 0;
+    progressFill.style.width = pct + '%';
 
     counter.textContent = opened ? (current + ' / ' + (total - 1)) : '';
 
@@ -651,7 +881,6 @@
     animating = true;
     var p = pages[current];
     p.classList.add('flipping');
-    // force reflow so the 'flipping' shadow class + transform both animate together
     void p.offsetWidth;
     p.classList.add('flipped');
     current++;

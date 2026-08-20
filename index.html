@@ -916,7 +916,8 @@
 
   var book     = document.getElementById('book');
   var pages    = Array.prototype.slice.call(book.querySelectorAll('.page'));
-  var total    = pages.length;              // total pages including cover
+  var total = pages.length;
+var messagePages = 21;             // total pages including cover
   var backBtn  = document.getElementById('backBtn');
 var nextBtn  = document.getElementById('nextBtn');
   var counter  = document.getElementById('counter');
@@ -932,21 +933,20 @@ var nextBtn  = document.getElementById('nextBtn');
   function updateControls(){
   var onCover = current === 0;
 
-  // Hide controls on the cover; show them after opening
   controls.classList.toggle('visible', !onCover);
 
-  // Back button is disabled ONLY on the cover
+  // Back works on every page except the cover
   backBtn.disabled = onCover;
 
-  // Next button is disabled on the final page
+  // Disable next on the final page
   nextBtn.disabled = (current >= total - 1);
 
-  // Cover = Page 1, first message = Page 2
-  // But don't display a number on the cover
+  // Cover = Page 1, but its number is hidden
+  // Message pages = 2–21
   if (onCover) {
     counter.textContent = '';
   } else {
-    counter.textContent = (current + 1) + ' / 21';
+    counter.textContent = Math.min(current + 1, messagePages) + ' / ' + messagePages;
   }
 
   book.classList.toggle('on-final', current === total - 1);

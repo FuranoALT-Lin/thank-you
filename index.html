@@ -434,14 +434,16 @@
     transition: width .5s ease;
   }
 
-  .counter{
+ .counter{
   font-family: var(--font-body);
-  font-style:italic;
-  font-size:13px;
-  color: var(--burgundy);
-  opacity:1;
-  min-width:48px;
-  text-align:right;
+  font-style: italic;
+  font-size: 16px;
+  font-weight: 500;
+  color: #FFFFFF;
+  text-shadow: 0 1px 3px rgba(92,42,58,.35);
+  opacity: 1;
+  min-width: 52px;
+  text-align:center;
   flex-shrink:0;
 }
 
@@ -928,17 +930,24 @@ var nextBtn  = document.getElementById('nextBtn');
   pages.forEach(function(p, i){ p.style.zIndex = total - i; });
 
   function updateControls(){
-  var opened = current > 0;
+  var onCover = current === 0;
 
-  // Hide controls on the cover; show them after the first click
-  controls.classList.toggle('visible', opened);
+  // Hide controls on the cover; show them after opening
+  controls.classList.toggle('visible', !onCover);
 
-  backBtn.disabled = (current <= 1);
+  // Back button is disabled ONLY on the cover
+  backBtn.disabled = onCover;
+
+  // Next button is disabled on the final page
   nextBtn.disabled = (current >= total - 1);
 
-  // Cover is not counted; message pages are 1–21
-  var pageNumber = current === 0 ? 1 : current;
-  counter.textContent = pageNumber + ' / 21';
+  // Cover = Page 1, first message = Page 2
+  // But don't display a number on the cover
+  if (onCover) {
+    counter.textContent = '';
+  } else {
+    counter.textContent = (current + 1) + ' / 21';
+  }
 
   book.classList.toggle('on-final', current === total - 1);
 }

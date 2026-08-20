@@ -108,11 +108,11 @@
 
   .book-wrap{
     position:relative;
-    width:min(92vw, 480px);
-    height: min(76vh, 660px);
-    height: min(76dvh, 660px);
-    perspective: 2600px;
-  }
+    width:min(92vw, 480px, calc((100dvh - 100px) * 0.727));
+    aspect-ratio: 480 / 660;
+    height:auto;
+    perspective:2600px;
+}
 
   .book{
     position:relative;

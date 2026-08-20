@@ -383,27 +383,40 @@
     pointer-events:auto;
   }
 
-  .back-btn{
+  .back-btn,
+.next-btn{
   font-family: var(--font-body);
-  font-style:italic;
-  font-size: 15px;
-  letter-spacing:.03em;
+  font-size: 25px;
+  font-weight: 400;
+  line-height: 1;
   color: #000000;
-  background:transparent;
-  border:1px solid #000000;
-  border-radius:20px;
-  padding:6px 16px;
-  cursor:pointer;
-  transition: background .25s ease, color .25s ease, opacity .25s ease;
-  opacity:1;
-  flex-shrink:0;
+  background: transparent;
+  border: none;
+  padding: 2px 8px;
+  cursor: pointer;
+  transition: opacity .25s ease, transform .2s ease;
+  opacity: 1;
+  flex-shrink: 0;
 }
-  .back-btn:hover{
-  background:#000000;
-  color:#ffffff;
+
+.back-btn:hover,
+.next-btn:hover{
+  opacity: .55;
+  transform: scale(1.1);
 }
-  .back-btn:disabled{ opacity:0; pointer-events:none; }
-  .back-btn:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+
+.back-btn:disabled,
+.next-btn:disabled{
+  opacity: .15;
+  pointer-events: none;
+}
+
+.back-btn:focus-visible,
+.next-btn:focus-visible{
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
 
   .progress-track{
     flex:1;
@@ -858,14 +871,16 @@
       </div><!-- /.book -->
     </div><!-- /.book-wrap -->
 
-    <!-- controls: back button / progress bar / counter -->
-    <div class="controls" id="controls">
-      <button class="back-btn" id="backBtn" type="button" aria-label="Go back a page">&#8249; Back</button>
-      <div class="progress-track" aria-hidden="true"><div class="progress-fill" id="progressFill"></div></div>
-      <span class="counter" id="counter"></span>
-    </div>
+    <!-- controls: previous / page number / next -->
+<div class="controls" id="controls">
+  <button class="back-btn" id="backBtn" type="button" aria-label="Previous page">&#8249;</button>
 
-  </div><!-- /.stage -->
+  <span class="counter" id="counter">0 / 21</span>
+
+  <button class="next-btn" id="nextBtn" type="button" aria-label="Next page">&#8250;</button>
+</div>
+
+</div><!-- /.stage -->
 
 <script>
   /* ============================================================
@@ -897,7 +912,7 @@
   var pages    = Array.prototype.slice.call(book.querySelectorAll('.page'));
   var total    = pages.length;              // total pages including cover
   var backBtn  = document.getElementById('backBtn');
-  var progressFill = document.getElementById('progressFill');
+var nextBtn  = document.getElementById('nextBtn');
   var counter  = document.getElementById('counter');
   var controls = document.getElementById('controls');
 
@@ -909,17 +924,17 @@
   pages.forEach(function(p, i){ p.style.zIndex = total - i; });
 
   function updateControls(){
-    var opened = current > 0;
-    controls.classList.toggle('visible', opened);
-    backBtn.disabled = !opened;
+  var opened = current > 0;
 
-    var pct = opened ? (current / (total - 1)) * 100 : 0;
-    progressFill.style.width = pct + '%';
+  controls.classList.toggle('visible', true);
 
-    counter.textContent = opened ? (current + ' / ' + (total - 1)) : '';
+  backBtn.disabled = (current <= 0);
+  nextBtn.disabled = (current >= total - 1);
 
-    book.classList.toggle('on-final', current === total - 1);
-  }
+  counter.textContent = current + ' / ' + (total - 1);
+
+  book.classList.toggle('on-final', current === total - 1);
+}
 
   function next(){
     if (animating || current >= total - 1) return;
@@ -951,15 +966,22 @@
     }, FLIP_MS);
   }
 
-  // clicking anywhere on the book/card advances to the next page
-  book.addEventListener('click', function(){ next(); });
+// clicking anywhere on the book/card advances to the next page
+book.addEventListener('click', function(){ 
+  next(); 
+});
 
-  // back button must not also trigger the "advance" click on the book
-  backBtn.addEventListener('click', function(e){
-    e.stopPropagation();
-    prev();
-  });
+// back button must not also trigger the "advance" click on the book
+backBtn.addEventListener('click', function(e){
+  e.stopPropagation();
+  prev();
+});
 
+// next button must not also trigger the "advance" click on the book
+nextBtn.addEventListener('click', function(e){
+  e.stopPropagation();
+  next();
+});
   // keyboard support
   document.addEventListener('keydown', function(e){
     if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter'){

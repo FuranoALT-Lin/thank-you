@@ -871,7 +871,9 @@
     audio.src=MUSIC_URL;
     audio.volume=MUSIC_VOLUME;
     function startMusic(){
-      audio.play().catch(function(){});
+      audio.play().catch(function(error){
+  console.log("Music could not play:", error);
+});
       document.removeEventListener('pointerdown',startMusic);
       document.removeEventListener('keydown',startMusic);
     }

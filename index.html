@@ -873,11 +873,11 @@
 
     <!-- controls: previous / page number / next -->
 <div class="controls" id="controls">
-  <button class="back-btn" id="backBtn" type="button" aria-label="Previous page">&#8249;</button>
+  <button class="back-btn" id="backBtn" type="button" aria-label="Previous page">&#8592;</button>
 
-  <span class="counter" id="counter">0 / 21</span>
+  <span class="counter" id="counter">1 / 21</span>
 
-  <button class="next-btn" id="nextBtn" type="button" aria-label="Next page">&#8250;</button>
+  <button class="next-btn" id="nextBtn" type="button" aria-label="Next page">&#8594;</button>
 </div>
 
 </div><!-- /.stage -->
@@ -926,16 +926,18 @@ var nextBtn  = document.getElementById('nextBtn');
   function updateControls(){
   var opened = current > 0;
 
-  controls.classList.toggle('visible', true);
+  // Hide controls on the cover; show them after the first click
+  controls.classList.toggle('visible', opened);
 
-  backBtn.disabled = (current <= 0);
+  backBtn.disabled = (current <= 1);
   nextBtn.disabled = (current >= total - 1);
 
-  counter.textContent = current + ' / ' + (total - 1);
+  // Cover is not counted; message pages are 1–21
+  var pageNumber = current === 0 ? 1 : current;
+  counter.textContent = pageNumber + ' / 21';
 
   book.classList.toggle('on-final', current === total - 1);
 }
-
   function next(){
     if (animating || current >= total - 1) return;
     animating = true;
